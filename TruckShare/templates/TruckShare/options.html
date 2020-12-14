@@ -1,0 +1,93 @@
+{% extends 'TruckShare/layout.html' %}
+{% block section %}
+<div class="options-container d-flex flex-column">
+    <div class="item-1 w-100 d-flex flex-row align-items-center justify-content-center">
+        <button type="button" class="sort-btn btn btn-primary btn-lg mr-5 mt-2"
+            data-sort="cost">Cost</button>
+        <button type="button" class="sort-btn btn btn-light btn-lg mt-2"
+            data-sort="time">Time</button>
+    </div>
+    <div class="item-2 container-fluid p-3 m-0">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center" style="font-family:fantasy;">Order Options</h1>
+            </div>
+        </div>
+        <div class="cost-row row row-cols-1 row-cols-md-5" style="display:none;">
+            {% for order in costOptions %}
+            <div class="col mb-4">
+                <div class="card text-white bg-secondary m-1" style="max-width: 30rem;">
+                    <div class="card-header text-center">Option-1</div>
+                    <div class="card-body">
+                        <div class="truck-info">
+                            <p class="card-text text-white" style="font-size:17px;">
+                                Payment : Rs. X<br>
+                                Delivery Date : 14/12/2020 12:50<br>
+                                Transporter : xyz<br>
+                                Truck : smt1<br>
+                                Weight Occupied : X kg
+                                Volume Occupied : X litres<br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="time-row row row-cols-1 row-cols-md-5" style="display:none;">
+            {% for order in TimeOptions %}
+            <div class="col mb-4">
+                <div class="card text-white bg-secondary m-1" style="max-width: 30rem;">
+                    <div class="card-header text-center">Option-2</div>
+                    <div class="card-body">
+                        <div class="truck-info">
+                            <p class="card-text text-white" style="font-size:17px;">
+                                Payment : Rs. X<br>
+                                Delivery Date : 14/12/2020 12:50<br>
+                                Transporter : xyz<br>
+                                Truck : smt1<br>
+                                Weight Occupied : X kg
+                                Volume Occupied : X litres<br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var innerContainerHeight = document.querySelector('.options-container')
+        .offsetHeight;
+    var outsideContainerHeight = document.querySelector('.section-item-2')
+        .offsetHeight;
+    if (innerContainerHeight > outsideContainerHeight)
+        document.querySelector('.section').style.minHeight = 'min-content';
+
+    document.addEventListener('DOMContentLoaded', function()
+    {
+        document.querySelectorAll('.sort-btn').forEach(function(button)
+        {
+            button.onclick = () =>
+            {
+                var sortingType = button.dataset.sort;
+                if (sortingType == 'cost')
+                {
+                    document.querySelector('.cost-row').style
+                        .display = 'block';
+                    document.querySelector('.time-row').style
+                        .display = 'none';
+                }
+                else
+                {
+                    document.querySelector('.time-row').style
+                        .display = 'block';
+                    document.querySelector('.cost-row').style
+                        .display = 'none';
+                }
+            }
+        })
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'TruckShare/layout.html' %}
+{% block section %}
+<section class="container h-100 p-0 m-0">
+    <div class="row justify-content-center h-100">
+        <div class="col-3">
+        </div>
+        <div class="col-6 d-flex flex-column align-items-center justify-content-center">
+            <div
+                class="add-form-container d-flex flex-column align-items-center justify-content-center w-75 rounded">
+                <div class="w-100">
+                    <form action="{% url 'addTrucks' request.user.transporter.id %}"
+                        method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <select class="form-control" name="truckType"
+                                id="truck-type-select" required>
+                                <option value="" disabled selected>Truck Types</option>
+                                {% for val,name in truckTypes %}
+                                <option value={{val}}>{{name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="number" name="trucksOwned"
+                                placeholder="Trucks Owned" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="number" name="cost1"
+                                placeholder="Weight-wise Cost" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="number" name="cost2"
+                                placeholder="Volume-wise Cost" required>
+                        </div>
+                        <input class="btn btn-primary btn-lg" type="submit" value="Add">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col3">
+        </div>
+    </div>
+</section>
+{% endblock %}

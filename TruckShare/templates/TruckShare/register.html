@@ -1,0 +1,163 @@
+{% extends 'TruckShare/layout.html' %}
+{% block section %}
+<section class="container h-100 p-0 mt-2">
+    <div class="row justify-content-center h-100">
+        <div class="col-3">
+        </div>
+        <div class="col-6 d-flex flex-column align-items-center justify-content-center">
+            <div
+                class="auth-form-container d-flex flex-column align-items-center justify-content-start w-75 rounded">
+                <div class="w-100 item-1">
+                    {% if message %}
+                    <div class="alert alert-warning" role="alert">
+                        {{message}}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="w-100 item-2">
+                    <button type="button" id="manu-btn"
+                        class="btn btn-light btn-lg user-type"
+                        data-user="manufacturer">Manufacturer</button>
+                    <button type="button" id="trans-btn"
+                        class="btn btn-dark btn-lg user-type"
+                        data-user="transporter">Transporter</button>
+                </div>
+                <div class="w-100 item-3">
+                    <div id="manu-inputs" style="display:none;">
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="user" value="manufacturer">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="companyName"
+                                    placeholder="Company Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="email" name="email"
+                                    placeholder="company@xyz.com" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="tel" name="phoneNo"
+                                    placeholder="Eg:- 9860184546" pattern="[0-9]{10}"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="location"
+                                    id="city-select-manu" required>
+                                    <option value="" disabled selected>Location</option>
+                                    {% for city in cities%}
+                                    <option>{{city}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="goodsTypes"
+                                    placeholder="Steel Pipes, Aluminium ingots, etc."
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password"
+                                    name="password" placeholder="Password" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password"
+                                    name="confirmation" placeholder="Confirm Password"
+                                    required>
+                            </div>
+                            <input class="btn btn-primary" type="submit" name="register"
+                                value="Register">
+                        </form>
+                    </div>
+                    <div id="trans-inputs" style="display:none;">
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="user" value="transporter">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="companyName"
+                                    placeholder="Company Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="email" name="email"
+                                    placeholder="company@xyz.com" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="tel" name="phoneNo"
+                                    placeholder="Eg:- 9860184546" pattern="[0-9]{10}"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="location"
+                                    id="city-select-trans" required>
+                                    <option value="" disabled selected>Location</option>
+                                    {% for city in cities%}
+                                    <option>{{city}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="number" name="laborCost"
+                                    placeholder="Labor Cost" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password"
+                                    name="password" placeholder="Password" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password"
+                                    name="confirmation" placeholder="Confirm Password"
+                                    required>
+                            </div>
+                            <input class="btn btn-primary" type="submit" name="register"
+                                value="Register">
+                        </form>
+                    </div>
+                    </form>
+                    <span class="font-weight-bold">Already have an account? </span><a
+                        href="{% url 'login' %}" style="color:white;">Login here.</a>
+                </div>
+            </div>
+            <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function()
+                {
+                    var userType = "";
+                    document.querySelectorAll('.user-type').forEach((button) =>
+                    {
+                        button.onclick = () =>
+                        {
+                            userType = button.dataset.user;
+                            var message = document.querySelector(
+                                '.alert-warning');
+                            if (message !== null)
+                                message.remove();
+
+                            if (userType == "manufacturer")
+                            {
+                                document.querySelector('#manu-inputs')
+                                    .style.display =
+                                    'block';
+                                document.querySelector(
+                                        '#trans-inputs')
+                                    .style.display =
+                                    'none';
+                            }
+                            else
+                            {
+                                document.querySelector(
+                                        '#trans-inputs')
+                                    .style.display =
+                                    'block';
+                                document.querySelector('#manu-inputs')
+                                    .style.display = 'none';
+                            }
+                            document.getElementsByName('register')[0]
+                                .style
+                                .display = 'block';
+                        }
+                    })
+                });
+            </script>
+        </div>
+        <div class="col-3">
+        </div>
+    </div>
+</section>
+{% endblock %}

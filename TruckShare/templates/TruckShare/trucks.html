@@ -1,0 +1,119 @@
+{% extends 'TruckShare/layout.html' %}
+{% block section %}
+<div class="trucks-container d-flex flex-column">
+    <div class="trucks-item-1">
+        <div class="heading-container d-flex flex-row justify-content-between">
+            <h1>Your Trucks :
+                {{ownerTrucksParked}}</h1>
+            <a href="{% url 'addTrucks' request.user.transporter.id %}"><button
+                    type="button" class="btn btn-info btn-lg">Add
+                    Trucks</button></a>
+        </div>
+        <div class="cards-container d-flex flex-row align-items-center p-1">
+            {% for truck,freq,truckType in ownerTrucks.values %}
+            <div class="card text-white bg-secondary m-1" style="max-width: 23rem;">
+                <div class="card-header text-center">{{truckType}}</div>
+                <div class="card-body">
+                    <div class="truck-info">
+                        <p class="card-text text-white" style="font-size:14.5px;">
+                            Number of Trucks : {{freq}}<br>
+                            Max Speed : {{truck.maxSpeed}} Km/hr<br>
+                            Mileage : {{truck.mileage}} Km/litres<br>
+                            Weight-wise Cost : Rs.{{truck.costFact1}} Volume-wise Cost :
+                            Rs.{{truck.costFact2}}<br>
+                            Weight Capacity : {{truck.weightCap}} kg Volume Capacity :
+                            {{truck.volumeCap}} litres<br>
+                        </p>
+                        <button type="button" class="btn btn-primary update-btn"
+                            data-type={{truck.truckType}}>Update
+                            Cost</button>
+                    </div>
+                    <div class="truck-update-info" style="display:none;">
+                        <form action="{% url 'trucks' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="truckType"
+                                value="{{truck.truckType}}">
+                            <div class="form-group">
+                                <label for="weight-cost">Weight-wise Cost:</label>
+                                <input id="weight-cost" class="form-control" type="number"
+                                    name="cost1" value={{truck.costFact1}} required>
+                            </div>
+                            <div class="form-group">
+                                <label for="volume-cost">Volume-wise Cost:</label>
+                                <input id="volume-cost" class="form-control" type="number"
+                                    name="cost2" value={{truck.costFact2}} required>
+                            </div>
+                            <input class="btn btn-primary btn-lg" type="submit"
+                                value="Update">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="trucks-item-2">
+        <div class="heading-container">
+            <h1>Other's Trucks :
+                {{numOtherTrucks}}</h1>
+        </div>
+        <div class="d-flex flex-row align-items-center flex-wrap p-1">
+            {% for truck in otherTrucksParked %}
+            <div class="card text-white bg-secondary m-1" style="min-width: 23rem;">
+                <div class="card-header text-center">{{truckType}}</div>
+                <div class="card-body">
+                    <p class="card-text text-white" style="font-size:15px;">
+                        Owner : {{truck.owner.user.companyName}}<br>
+                        Owner's Base :
+                        {{truck.owner.location.name}}/{{truck.owner.location.state}}<br>
+                        Truck ID : {{truck.id}}<br>
+                        Weight-wise Cost : Rs.{{truck.costFact1}}<br>
+                        Volume-wise Cost : Rs.{{truck.costFact2}}<br>
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    sectionHeight = document.querySelector('.section').offsetHeight;
+    navBarHeight = document.querySelector('.navbar').offsetHeight;
+    trucksContainerHeight = document.querySelector('.trucks-container').offsetHeight;
+
+    cardContainerHeight = document.querySelector('.cards-container').offsetHeight;
+    trucksItemHeight = document.querySelector('.trucks-item-1').offsetHeight;
+    headingHeight = document.querySelector('.heading-container').offsetHeight;
+
+    if (sectionHeight - navBarHeight < trucksContainerHeight)
+        document.querySelector('.section').style.minHeight = 'min-content';
+
+    if (cardContainerHeight > trucksItemHeight - headingHeight)
+        document.querySelector('.trucks-item-1').style.minHeight = 'min-content';
+
+    var infoDivs = document.querySelectorAll('.truck-info');
+    var formDivs = document.querySelectorAll('.truck-update-info');
+    var truckTypes = ['SMT1', 'SMT2', 'LMT1', 'LMT2'];
+    for (let i = 0; i < truckTypes.length; i++)
+    {
+        infoDivs[i].setAttribute('id', `${truckTypes[i]}-info`);
+        formDivs[i].setAttribute('id', `${truckTypes[i]}-update`);
+    }
+
+    document.addEventListener('DOMContentLoaded', function()
+    {
+        document.querySelectorAll('.update-btn').forEach(function(button)
+        {
+            button.onclick = () =>
+            {
+                type = button.dataset.type;
+                //console.log(type)
+                document.querySelector(`#${type}-info`).style
+                    .display = 'none';
+                document.querySelector(`#${type}-update`).style
+                    .display = 'block';
+            };
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <meta charset="utf-8">
+        <title>FlexBox Test</title>
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous">
+        <style media="screen">
+            html,
+            body {
+                height: 100%;
+            }
+
+            .main-container>.item-1 {
+                min-height: 120px;
+                background-color: teal;
+            }
+
+            .main-container>.item-2 {
+                min-height: 70%;
+                background-color: lightgreen;
+            }
+
+            .main-container>.item-3 {
+                min-height: 100px;
+                background-color: lightblue;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="main-container d-flex flex-column h-100">
+            <div class="item-1">
+                <h1>TruckShare</h1>
+            </div>
+            <div class="item-2 d-flex flex-row align-items-center flex-wrap p-2">
+            </div>
+            <div class="item-3">
+                <h2>footer</h2>
+            </div>
+            <script type="text/javascript">
+                function setAttributes(el, attrs)
+                {
+                    for (var key in attrs)
+                    {
+                        el.setAttribute(key, attrs[key]);
+                    }
+                }
+                document.addEventListener('DOMContentLoaded', function()
+                {
+                    var k = 20;
+                    if (k >= 9)
+                    {
+                        document.querySelector('.item-2').style.minHeight =
+                            'min-content';
+                    }
+
+                    for (var i = 0; i < k; i++)
+                    {
+                        cardElement = document.createElement('div');
+                        attributes = {
+                            'class': 'card text-white bg-primary mb-3 ml-2 mr-2',
+                            'style': 'max-width: 20rem;'
+                        }
+                        setAttributes(cardElement, attributes);
+                        innerHTML = `<div class="card-header">Header</div>
+                            <div class = "card-body">
+
+                            <h5 class = "card-title" > Primary card title </h5>
+                            <p class = "card-text" >
+                            Some quick example text to build on the card
+                        title and make up the bulk of the card's content.some bull
+                        shit written her just to increase the content inside the card
+                            .
+                            </p>
+                            </div>`
+                        cardElement.innerHTML = innerHTML;
+                        containerElement = document.querySelector('.item-2')
+                        containerElement.append(cardElement);
+                    }
+                });
+            </script>
+    </body>
+
+</html>

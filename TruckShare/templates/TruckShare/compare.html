@@ -1,0 +1,19 @@
+{% extends 'TruckShare/layout.html' %}
+{% block section %}
+<div class="list-group">
+    {% for transporter in transporters %}
+    <a href="{% url 'transporterProfile' transporter.id %}"
+        class="list-group-item list-group-item-action"><span
+            style="border-right: 1px solid black;padding-right:5px">{{transporter.user.companyName}}</span>
+        {{transporter.location}}/{{transporter.location.state}}</a>
+    {% endfor %}
+</div>
+<script type="text/javascript">
+    listGroupHeight = document.querySelector('.list-group').offsetHeight;
+    sectionHeight = document.querySelector('.section').offsetHeight;
+    navBarHeight = document.querySelector('.navbar').offsetHeight;
+
+    if (listGroupHeight > sectionHeight - navBarHeight)
+        document.querySelector('.section').style.minHeight = 'min-content';
+</script>
+{% endblock %}

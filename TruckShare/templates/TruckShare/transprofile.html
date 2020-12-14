@@ -1,0 +1,63 @@
+{% extends 'TruckShare/layout.html' %}
+{% block section %}
+<div class="profile-container d-flex flex-row ">
+    <div class="profile-info-container">
+        <h1 class="text-bolder" style="font-family:fantasy;">Transporter Profile</h1>
+        <br>
+        <h4 style="font-family:fantasy;">Company Name :
+            {{transporter.user.companyName}}</h4>
+        <h4 style="font-family:fantasy;">Email ID :
+            {{transporter.user.email}}</h4>
+        <h4 style="font-family:fantasy;">Phone No. :
+            {{transporter.user.phoneNo}}</h4>
+        <h4 style="font-family:fantasy;">Location :
+            {{transporter.location}}/{{request.user.transporter.location.state}}
+        </h4>
+        <h4 style="font-family:fantasy;">Labor Cost :
+            Rs. {{transporter.laborCost}}/hr</h4>
+        <h4 style="font-family:fantasy;">Trucks Owned :
+            {{transporter.numTrucksOwned}}
+        </h4>
+    </div>
+    <div class="profile-truck-container">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center" style="font-family:fantasy;">Trucks owned</h1>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2">
+                {% for truck,freq,truckType in ownerTrucks.values %}
+                <div class="col mb-4">
+                    <div class="card text-white bg-secondary m-1"
+                        style="max-width: 23rem;">
+                        <div class="card-header text-center">{{truckType}}</div>
+                        <div class="card-body">
+                            <div class="truck-info">
+                                <p class="card-text text-white" style="font-size:14.5px;">
+                                    Number of Trucks : {{freq}}<br>
+                                    Max Speed : {{truck.maxSpeed}} Km/hr<br>
+                                    Mileage : {{truck.mileage}} Km/litres<br>
+                                    Weight-wise Cost : Rs.{{truck.costFact1}} Volume-wise
+                                    Cost :
+                                    Rs.{{truck.costFact2}}<br>
+                                    Weight Capacity : {{truck.weightCap}} kg Volume
+                                    Capacity :
+                                    {{truck.volumeCap}} litres<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var innerContainerHeight = document.querySelector('.profile-container').offsetHeight;
+    var outsideContainerHeight = document.querySelector('.section-item-2').offsetHeight;
+    if (innerContainerHeight > outsideContainerHeight)
+        document.querySelector('.section').style.minHeight = 'min-content'
+</script>
+{% endblock %}

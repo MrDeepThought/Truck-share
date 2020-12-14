@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>TruckShare</title>
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'TruckShare/main.css' %}">
+    </head>
+
+    <body>
+        <div class="d-flex flex-column h-100">
+            <div class="header d-flex align-items-center">
+                <header class="page-header">
+                    <h1>
+                        TruckShare
+                        <span class="text-muted tag-line">Sharing is our first
+                            priority.</span>
+                    </h1>
+                </header>
+            </div>
+            <div class="section d-flex flex-column">
+                <div class="section-item-1" style="min-height:min-content;">
+                    {% if request.user.is_authenticated %}
+                    {% if request.user.is_manufacturer %}
+                    <nav class="navbar navbar-dark bg-primary">
+                        <!-- Navbar content -->
+                        <ul class="nav justify-content-start">
+                            <li class="nav-item">
+                                <a class="nav-link text-white"
+                                    href="{% url 'index' %}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white"
+                                    href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    {% elif request.user.is_transporter %}
+                    <nav class="navbar navbar-dark bg-primary">
+                        <!-- Navbar content -->
+                        <ul class="nav justify-content-start">
+                            <li class="nav-item">
+                                <a class="nav-link text-white"
+                                    href="{% url 'index' %}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white"
+                                    href="{% url 'transporterProfile' request.user.transporter.id %}">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white"
+                                    href="{% url 'trucks' %}">Trucks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white"
+                                    href="{% url 'compare' %}">Compare</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white"
+                                    href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="section-item-2">
+                    {% block section %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="footer">
+                <footer
+                    class="page-footer font-small d-flex flex-column align-items-center justify-content-center">
+                    <!-- Copyright -->
+                    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+                        MrDeepThought
+                    </div>
+                    <!-- Copyright -->
+                </footer>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+            integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+            crossorigin="anonymous"></script>
+    </body>
+
+</html>
